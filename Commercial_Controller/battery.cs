@@ -5,7 +5,7 @@ namespace Commercial_Controller
 {   //Class Creation
     public class Battery
     {
-        public int ID;
+        public int ID = 1;
         public int amountOfColumns;
         public string status;
         public int amountOfFloors;
@@ -13,6 +13,8 @@ namespace Commercial_Controller
         public List<Column> columnsList;
         public List<FloorRequestButton> floorButtonsList;
         public List<int> servedFloors;
+
+        private int columnId = 1;
         //Initilisation of object Battery
         public Battery(int _id, int _amountOfColumns, int _amountOfFloors, int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
@@ -23,12 +25,13 @@ namespace Commercial_Controller
             this.amountOfBasements = _amountOfBasements;
             this.columnsList = new List<Column>();
             this.floorButtonsList = new List<FloorRequestButton>();
+            
 
             if (_amountOfBasements > 0)
             {
                 this.createBasementFloorRequestButtons(_amountOfBasements);
                 this.createBasementColumn(_amountOfBasements, _amountOfElevatorPerColumn);
-                _amountOfColumns--;
+                this.amountOfColumns--;
             }
             
             createBasementFloorRequestButtons(_amountOfBasements);
@@ -38,38 +41,45 @@ namespace Commercial_Controller
         //Basement floors
         public void createBasementColumn(int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
+            // var columnID = 1;
+            
             List<int> servedFloors = new List<int>();
-            int floor = -1;
+            int _floor = -1;
             for (int i = 0 ; i < _amountOfBasements; i++)
             {
-                servedFloors.Add(floor);
-                floor--;
+                servedFloors.Add(_floor);
+                _floor--;
             }
-
-            Column column = new Column(Global.columnID, status, _amountOfBasements, _amountOfElevatorPerColumn, servedFloors, true);
+            Column column = new Column(this.columnId, status, this.amountOfBasements, _amountOfElevatorPerColumn, servedFloors, true);
+            //Column column = new Column(Global.columnID, status, this.amountOfBasements, _amountOfElevatorPerColumn, servedFloors, true);
             columnsList.Add(column);
-            Global.columnID++;
+            this.columnId++;
+            //Global.columnID++;
         }
         //Amount of columns
         public void createColumns(int _amountOfColumns, int _amountOfFloors, int _amountOfElevatorPerColumn)
         {
-            _amountOfElevatorPerColumn = (int)Math.Ceiling((double)_amountOfFloors/_amountOfColumns);
-            int floor = 1;
+            //var columnID = 1;
+
+            int amountOfFloorsPerColumn = (int)Math.Ceiling((double)_amountOfFloors/_amountOfColumns);
+            int _floor = 1;
 
             for (int i = 0 ; i < _amountOfColumns; i++)
             {
                 List<int> servedFloors = new List<int>();
-                for(int m = 0 ; m < _amountOfElevatorPerColumn; m++)
+                for(int m = 0 ; m < amountOfFloorsPerColumn; m++)
                 {
-                    if(floor >= _amountOfFloors)
+                    if(_floor <= _amountOfFloors)
                     {
-                        servedFloors.Add(floor);
-                        floor++;
+                        servedFloors.Add(_floor);
+                        _floor++;
                     }
                 }
-                Column column = new Column(Global.columnID, status, _amountOfFloors, _amountOfElevatorPerColumn, servedFloors, false);
-                columnsList.Add(column);    
-                Global.columnID++;  
+                Column column = new Column(this.columnId, "online", this.amountOfBasements, _amountOfElevatorPerColumn, servedFloors, false);
+                //Column column = new Column(Global.columnID, "online", _amountOfFloors, _amountOfElevatorPerColumn, servedFloors, false);
+                this.columnsList.Add(column);   
+                //Global.columnID++;
+                this.columnId++;
             }
         }
         //Button list for floor exept basement
@@ -99,24 +109,25 @@ namespace Commercial_Controller
         //Find best column for elevator
         public Column findBestColumn(int _requestedFloor)
         {
+            Column bestColumn = null;
             foreach(Column column in this.columnsList)
             {
                 if(column.servedFloorsList.Contains(_requestedFloor))
                 {
-                    return column;
+                    bestColumn = column;
                 }
             }
-            return null;
+            return bestColumn;
         }
         //Simulate when a user press a button at the lobby
-        public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
+        public (Column, Elevator) assignElevator(int userPosition, string _direction)
         {
-            Column column = this.findBestColumn(_requestedFloor);
+            Column column = findBestColumn(userPosition);
             Elevator elevator = column.findElevator(1, _direction);
             elevator.addNewRequest(1);
             elevator.move();
 
-            elevator.addNewRequest(_requestedFloor);
+            elevator.addNewRequest(userPosition);
             elevator.move();
             return (column, elevator);
         }

@@ -1,11 +1,12 @@
 using System.Threading;
 using System.Collections.Generic;
+using System;
 
 namespace Commercial_Controller
 {
     public class Elevator
     {
-        public int ID;
+        public int ID = 1;
         public string status;
         public int amountOfFloors;
         public int currentFloor;
@@ -27,35 +28,36 @@ namespace Commercial_Controller
         
         //Make elevator move
         public void move()
-        {
-            while(this.floorRequestsList.Count == 0)
+        {   
+            while(this.floorRequestsList.Count != 0)
             {
-                int destination = floorRequestsList[0];
+                int userPosition = floorRequestsList[0];
                 this.status = "moving";
-                if(this.currentFloor < destination)
+                if(this.currentFloor < userPosition)
                 {
                     direction = "up";
                     //this.sortFlootList();
-                    while(this.currentFloor < destination)
+                    while(this.currentFloor < userPosition)
                     {
                         this.currentFloor++;
                        // this.screenDisplay = this.currentFloor;
                     }
                 }
-                else if(this.currentFloor > destination)
+                else if(this.currentFloor > userPosition)
                 {
                     direction = "down";
                     //this.sortFlootList;
-                    while(this.currentFloor < destination)
+                    while(this.currentFloor < userPosition)
                     {
                         this.currentFloor--;
                         //this.screenDisplay = this.currentFloor;
                     }
                 }
                 this.status = "stopped";
+                
                 this.completedRequestsList.Add(this.floorRequestsList[0]);
                 this.operateDoors();
-                this.floorRequestsList.RemoveAt(0);
+                floorRequestsList.Clear();
             }
             this.status = "idle";
         }
@@ -73,19 +75,19 @@ namespace Commercial_Controller
             }
         }
 
-        public void addNewRequest(int _requestedFloor)
+        public void addNewRequest(int userPosition)
         {
-            if(!this.floorRequestsList.Contains(_requestedFloor))
+            if(!floorRequestsList.Contains(userPosition))
             {
-                this.floorRequestsList.Add(_requestedFloor);
+                this.floorRequestsList.Add(userPosition);
             }
 
-            if(this.currentFloor < _requestedFloor)
+            if(this.currentFloor < userPosition)
             {
                 this.direction = "up";
             }
 
-            if(this.currentFloor > _requestedFloor)
+            if(this.currentFloor > userPosition)
             {
                 this.direction = "down";
             }
