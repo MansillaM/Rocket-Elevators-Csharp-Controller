@@ -61,7 +61,7 @@ namespace Commercial_Controller
         {
             //var columnID = 1;
 
-            int amountOfFloorsPerColumn = 20;//(int)Math.Ceiling((double)_amountOfFloors/_amountOfColumns);
+            int amountOfFloorsPerColumn = (int)Math.Ceiling((double)_amountOfFloors/_amountOfColumns);
             int _floor = 1;
 
             for (int i = 0 ; i < _amountOfColumns; i++)
