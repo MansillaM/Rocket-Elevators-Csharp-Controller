@@ -5,13 +5,15 @@ namespace Commercial_Controller
 {
     public class Column
     {
-        public int ID = 1;
+        public int ID;
         public string status;
         public int amountOfFloors;
         public int amountOfElevators;
         public List<Elevator> elevatorsList;
         public List<CallButton> callButtonsList;
         public List<int> servedFloorsList;
+
+        private int elevatorId = 1;
         //Initialize Columns
         public Column(int _id, string _status, int _amountOfFloors, int _amountOfElevators, List<int> _servedFloors, bool _isBasement)
         {
@@ -34,7 +36,7 @@ namespace Commercial_Controller
                 int buttonFloor = -1;
                 for(int i = 0; i < _amountOfFloors; i++)
                 {
-                    CallButton callButton = new CallButton(Global.callButtonID, "OFF", buttonFloor, "Up");
+                    CallButton callButton = new CallButton(Global.callButtonID, "off", buttonFloor, "up");
                     this.callButtonsList.Add(callButton);
                     buttonFloor--;
                     Global.callButtonID++;
@@ -45,7 +47,7 @@ namespace Commercial_Controller
                 int buttonFloor = 1;
                 for(int i = 0; i < _amountOfFloors; i++)
                 {
-                    CallButton callButton = new CallButton(Global.callButtonID, "OFF", buttonFloor, "Down");
+                    CallButton callButton = new CallButton(Global.callButtonID, "off", buttonFloor, "down");
                     this.callButtonsList.Add(callButton); 
                     buttonFloor++;
                     Global.callButtonID++;       
@@ -57,9 +59,9 @@ namespace Commercial_Controller
         {
             for(int i = 0; i < _amountOfElevators; i++)
             {
-                Elevator elevator = new Elevator(Global.elevatorID, "idle", _amountOfFloors, 1);
+                Elevator elevator = new Elevator(this.elevatorId, "idle", _amountOfFloors, 1);
                 this.elevatorsList.Add(elevator);
-                Global.elevatorID++;
+                this.elevatorId++;
             }
         }
 
@@ -95,7 +97,7 @@ namespace Commercial_Controller
                     {   
                          bestElevatorInformations = this.checkIfElevatorIsBetter(1, elevator, bestElevatorInformations, userPosition);
                     }
-                    else if(1 == elevator.currentFloor && elevator.status == "stopped")
+                    else if(1 == elevator.currentFloor && elevator.status == "idle")
                     {    
                         bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, userPosition);
                     }
@@ -114,13 +116,8 @@ namespace Commercial_Controller
                     else
                     {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(5, elevator, bestElevatorInformations, userPosition);
-
                     }
-                    //bestElevator = bestElevatorInformations[bestElevator];
-                   // bestScore = bestElevatorInformations[bestScore];
-                    //referenceGap = bestElevatorInformations[referenceGap];
                 }
-                    return bestElevatorInformations.bestElevator;
             }
             else
             {
@@ -147,9 +144,8 @@ namespace Commercial_Controller
                         bestElevatorInformations = this.checkIfElevatorIsBetter(5, elevator, bestElevatorInformations, userPosition);
                     }
                }
-                    return bestElevatorInformations.bestElevator;
-
             }
+            return bestElevatorInformations.bestElevator;
         }
 
         //Check which is best option

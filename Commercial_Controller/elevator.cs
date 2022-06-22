@@ -25,8 +25,37 @@ namespace Commercial_Controller
             this.completedRequestsList = new List<int>();
             this.direction = "none";
         }
-        
+
         //Make elevator move
+        // Note: The problem lies in this function, try translating the following pseudo code instead
+        /*
+            SEQUENCE move
+                WHILE THIS floorRequestsList IS NOT empty
+                    SET THIS status TO moving
+                    CALL THIS sortFloorList
+                    SET destination TO first element of THIS floorRequestsList
+
+                    IF THIS direction EQUALS up
+                        WHILE currentFloor IS LESS THAN destination
+                            INCREMENT THIS currentFloor
+                        ENDWHILE
+                    ELSE IF THIS direction EQUALS down
+                        WHILE currentFloor IS GREATER THAN destination
+                            DECREMENT THIS currentFloor
+                        ENDWHILE
+                    ENDIF
+
+                    SET THIS status TO stopped
+                    CALL THIS operateDoors
+                    REMOVE first element of THIS floorRequestsList
+                    ADD destination TO THIS completedRequestsList
+                ENDWHILE
+
+                SET THIS STATUS to idle
+                SET THIS direction to empty
+            ENDSEQUENCE
+
+        */
         public void move()
         {   
             while(this.floorRequestsList.Count != 0)
@@ -35,31 +64,41 @@ namespace Commercial_Controller
                 this.status = "moving";
                 if(this.currentFloor < destination)
                 {
-                    direction = "up";
-                    //this.sortFlootList();
+                    this.direction = "up";
+                    this.sortFloorList();
                     while(this.currentFloor < destination)
                     {
                         this.currentFloor++;
-                       // this.screenDisplay = this.currentFloor;
                     }
                 }
                 else if(this.currentFloor > destination)
                 {
-                    direction = "down";
-                    //this.sortFlootList;
+                    this.direction = "down";
+                    this.sortFloorList();
                     while(this.currentFloor < destination)
                     {
                         this.currentFloor--;
-                        //this.screenDisplay = this.currentFloor;
                     }
                 }
                 this.status = "stopped";
                 
-                this.completedRequestsList.Add(this.floorRequestsList[0]);
                 this.operateDoors();
-                floorRequestsList.Clear();
+                this.floorRequestsList.RemoveAt(0);
+                this.completedRequestsList.Add(destination);
             }
             this.status = "idle";
+        }
+
+        public void sortFloorList()
+        {
+            if(this.direction == "up")
+            {
+                this.floorRequestsList.Sort();
+            }
+            else
+            {
+                this.floorRequestsList.Reverse();
+            }
         }
 
         //close and open door
@@ -77,7 +116,7 @@ namespace Commercial_Controller
 
         public void addNewRequest(int userPosition)
         {
-            if(!floorRequestsList.Contains(userPosition))
+            if(!this.floorRequestsList.Contains(userPosition))
             {
                 this.floorRequestsList.Add(userPosition);
             }
