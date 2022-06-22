@@ -41,7 +41,7 @@ namespace Commercial_Controller
         //Basement floors
         public void createBasementColumn(int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
-            // var columnID = 1;
+            //var columnID = 1;
             
             List<int> servedFloors = new List<int>();
             int _floor = -1;
@@ -61,7 +61,7 @@ namespace Commercial_Controller
         {
             //var columnID = 1;
 
-            int amountOfFloorsPerColumn = (int)Math.Ceiling((double)_amountOfFloors/_amountOfColumns);
+            int amountOfFloorsPerColumn = 20;//(int)Math.Ceiling((double)_amountOfFloors/_amountOfColumns);
             int _floor = 1;
 
             for (int i = 0 ; i < _amountOfColumns; i++)
@@ -75,7 +75,7 @@ namespace Commercial_Controller
                         _floor++;
                     }
                 }
-                Column column = new Column(this.columnId, "online", this.amountOfBasements, _amountOfElevatorPerColumn, servedFloors, false);
+                Column column = new Column(this.columnId, "online", _amountOfFloors, _amountOfElevatorPerColumn, servedFloors, false);
                 //Column column = new Column(Global.columnID, "online", _amountOfFloors, _amountOfElevatorPerColumn, servedFloors, false);
                 this.columnsList.Add(column);   
                 //Global.columnID++;
@@ -109,15 +109,15 @@ namespace Commercial_Controller
         //Find best column for elevator
         public Column findBestColumn(int _requestedFloor)
         {
-            Column bestColumn = null;
+            Column chosenColumn = null;
             foreach(Column column in this.columnsList)
             {
                 if(column.servedFloorsList.Contains(_requestedFloor))
                 {
-                    bestColumn = column;
+                    return column;
                 }
             }
-            return bestColumn;
+            return chosenColumn;
         }
         //Simulate when a user press a button at the lobby
         public (Column, Elevator) assignElevator(int userPosition, string _direction)

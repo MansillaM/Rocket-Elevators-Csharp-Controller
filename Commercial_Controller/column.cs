@@ -67,8 +67,8 @@ namespace Commercial_Controller
         public Elevator requestElevator(int userPosition, string direction)
         {
             Elevator elevator = this.findElevator(userPosition, direction);
-            //elevator.addNewRequest(_requestedFloor);
-            //elevator.move();
+            elevator.addNewRequest(userPosition);
+            elevator.move();
 
             elevator.addNewRequest(1);//Always 1 because the user can only go back to the lobby
             elevator.move();

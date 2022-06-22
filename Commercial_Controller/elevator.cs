@@ -31,23 +31,23 @@ namespace Commercial_Controller
         {   
             while(this.floorRequestsList.Count != 0)
             {
-                int userPosition = floorRequestsList[0];
+                int destination = floorRequestsList[0];
                 this.status = "moving";
-                if(this.currentFloor < userPosition)
+                if(this.currentFloor < destination)
                 {
                     direction = "up";
                     //this.sortFlootList();
-                    while(this.currentFloor < userPosition)
+                    while(this.currentFloor < destination)
                     {
                         this.currentFloor++;
                        // this.screenDisplay = this.currentFloor;
                     }
                 }
-                else if(this.currentFloor > userPosition)
+                else if(this.currentFloor > destination)
                 {
                     direction = "down";
                     //this.sortFlootList;
-                    while(this.currentFloor < userPosition)
+                    while(this.currentFloor < destination)
                     {
                         this.currentFloor--;
                         //this.screenDisplay = this.currentFloor;
