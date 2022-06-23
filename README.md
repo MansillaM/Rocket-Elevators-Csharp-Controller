@@ -1,13 +1,13 @@
 # Rocket-Elevators-Csharp-Controller
 
-# Description
+## Description
 This programs creates columns, elevators, floorbuttons and call buttons.
 
 Under them we wrote an elaborate algorithm to call an elevator and chose the best column/elevator to respond the call, we also track those calls and put them on a list so the elevator knows where it's going and where it went.
 
 The scenarios and test help us make sure that our code is exellent and good to go.
 
-# Dependencies
+## Dependencies
 
 To be able to try the program, you need ..
 
@@ -17,7 +17,7 @@ To be able to try the program, you need ..
 - Scenario and test files
 
 
-# Usage
+## Usage
 
 To run the program you need to open terminal and run DOTNET RUN . SCENARIO-NUMBER or DOTNET TEST 
 
