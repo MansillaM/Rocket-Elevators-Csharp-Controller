@@ -26,32 +26,7 @@ namespace Commercial_Controller
             this.direction = "none";
         }
 
-        //Make elevator move
-        // Note: The problem lies in this function, try translating the following pseudo code instead
-        /*
-            SEQUENCE move
-                WHILE THIS floorRequestsList IS NOT empty
-                    SET THIS status TO moving
-                    CALL THIS sortFloorList
-                    SET destination TO first element of THIS floorRequestsList
-                    IF THIS direction EQUALS up
-                        WHILE currentFloor IS LESS THAN destination
-                            INCREMENT THIS currentFloor
-                        ENDWHILE
-                    ELSE IF THIS direction EQUALS down
-                        WHILE currentFloor IS GREATER THAN destination
-                            DECREMENT THIS currentFloor
-                        ENDWHILE
-                    ENDIF
-                    SET THIS status TO stopped
-                    CALL THIS operateDoors
-                    REMOVE first element of THIS floorRequestsList
-                    ADD destination TO THIS completedRequestsList
-                ENDWHILE
-                SET THIS STATUS to idle
-                SET THIS direction to empty
-            ENDSEQUENCE
-        */
+        //Make elevator move to desire direction
         public void move()
         {   
             while(this.floorRequestsList.Count != 0)
@@ -80,6 +55,7 @@ namespace Commercial_Controller
             this.status = "idle";
         }
 
+        //sort floors in numerical or reverse
         public void sortFloorList()
         {
             if(this.direction == "up")
@@ -105,6 +81,7 @@ namespace Commercial_Controller
             }
         }
 
+        //add new floor request to list
         public void addNewRequest(int userPosition)
         {
             if(!this.floorRequestsList.Contains(userPosition))

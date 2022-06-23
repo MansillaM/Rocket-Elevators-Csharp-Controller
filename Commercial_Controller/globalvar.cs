@@ -1,5 +1,6 @@
 namespace Commercial_Controller
 {
+    //global variables
     public static class Global
         
     {

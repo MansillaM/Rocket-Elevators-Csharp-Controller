@@ -6,7 +6,6 @@ namespace Commercial_Controller
         static void Main(string[] args)
         {
             int scenarioNumber = Int32.Parse(args[0]);
-            //scenarioNumber = 1;
             Scenarios scenarios = new Scenarios();
             scenarios.run(scenarioNumber);
         }

@@ -1,32 +1,27 @@
-# Rocket-Elevators-Csharp-Controller
-This is the template to use for the C# commercial controller. In the Commercial_Controller folder, you will find the classes that should be used along with some methods described in the requirements. The necessary files to run some tests are also included, in the Commercial_Controller.Tests folder.
+### Rocket-Elevators-Golang-Controller
 
-### Installation
+# Description
+This programs creates columns, elevators, floorbuttons and call buttons.
 
-As long as you have **.NET 6.0** installed on your computer, nothing more needs to be installed:
+Under them we wrote an elaborate algorithm to call an elevator and chose the best column/elevator to respond the call, we also track those calls and put them on a list so the elevator knows where it's going and where it went.
 
-The code to run the scenarios is included in the Commercial_Controller folder, and can be executed there with:
+The scenarios and test help us make sure that our code is exellent and good to go.
 
-`dotnet run <SCENARIO-NUMBER>`
+# Dependencies
 
-### Running the tests
+To be able to try the program, you need ..
 
-To launch the tests, make sure to be at the root of the repository and run:
+- VS Code
+- Download everything for C#
+- All code files
+- Scenario and test files
 
-`dotnet test`
 
-With a fully completed project, you should get an output like:
+# Usage
 
-![Screenshot from 2021-06-15 17-31-02](https://user-images.githubusercontent.com/28630658/122128889-3edfa500-ce03-11eb-97d0-df0cc6a79fed.png)
+To run the program you need to open terminal and run DOTNET RUN . SCENARIO-NUMBER or DOTNET TEST 
 
-You can also get more details about each test by adding the `-v n` flag: 
+## Example
 
-`dotnet test -v n` 
-
-which should give something like: 
-
-![Screenshot from 2021-06-15 18-00-52](https://user-images.githubusercontent.com/28630658/122129140-a8f84a00-ce03-11eb-8807-33d7eab8c387.png)
-
-Make sure to only edit files in the Commercial_Controller folder. The test and scenarios files can be left in your final project. The grader will run tests similar to the ones provided.
-
-Of course, make sure to edit this Readme file to describe your own project!
+If you call an elevator, depending on where u want to go it will chose the appropriate column and elevator.
+If you choose the 30th floor and the column 4 serves the floor it will find the closest elevator towards you.
